@@ -1,0 +1,117 @@
+body, html { 
+    margin: 0; padding: 0; background: #000; 
+    overflow: hidden; font-family: 'Courier New', monospace; 
+     color: #fff;
+  cursor: url('cursor.png') 16 16, auto; 
+}
+.win-header, .icon, button, .close-btn, textarea {
+    cursor: url('cursor.png') 16 16, pointer !important;
+}
+#boot-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #000; /* Noir total */
+    color: #00ff00; /* Vert Matrix/Veracruz */
+    z-index: 9999; /* Toujours au premier plan */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier New', monospace;
+}
+
+.boot-video-container {
+    width: 300px;
+    border: 1px solid #00ff00;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+#boot-video {
+    width: 100%;    /* La vidéo prend toute la largeur du cadre vert */
+    height: auto;
+    display: block;
+}
+
+#typewriter {
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    width: 300px;
+    min-height: 80px;
+    margin-bottom: 20px;
+}
+
+#enter-btn {
+    background: transparent;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+#enter-btn:hover {
+    background: #00ff00;
+    color: #000;
+}
+#bg-layer {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('./fond.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -10; filter: saturate(0.8) brightness(0.8);
+}
+
+#video-overlay {
+    position: fixed; bottom: 0; left: 0;
+    width: 100px; height: auto;
+    z-index: -5; pointer-events: none;transform: scaleX(-1);
+}
+
+#photo-secret {
+  position: fixed;
+  top: 50px;      /* Position depuis le haut */
+  right: 50px;    /* Position depuis la droite */
+  width: 200px;   /* Taille du GIF */
+  height: auto;
+  z-index: 10;    /* Au-dessus du fond, sous la sidebar */
+  pointer-events: none; /* TRÈS IMPORTANT : ne bloque pas les clics */
+
+  /* ÉTAT INITIAL : INVISIBLE */
+  opacity: 0; 
+  
+  /* TRANSITION : Pour une apparition douce */
+  transition: opacity 0.6s ease-out, transform 0.4s ease;
+  
+  /* OPTIONNEL : Look Pixel */
+  image-rendering: pixelated; 
+}
+
+canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+.sidebar {
+    position: fixed; top: 0; right: 0; width: 100px; height: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 20px; gap: 20px; z-index: 1000;
+}
+
+.icon { width: 80px; text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+.icon img { width: 32px; height: 32px; image-rendering: pixelated; }
+.icon span { font-size: 10px; color: white; background: rgba(0,0,0,0.8); padding: 2px 5px; margin-top: 5px; text-transform: uppercase; }
+
+.win95 {
+    position: absolute; background-color: rgba(192, 192, 192, 0.2); 
+    backdrop-filter: blur(10px); border: 3px solid;
+    border-color: rgba(255,255,255,0.6) rgba(10,50,10,0.9) rgba(10,50,10,0.9) rgba(255,255,255,0.6);
+    border-radius: 12px 25px 8px 30px; padding: 2px; z-index: 100; display: none;
+}
+
+.win-header { background: linear-gradient(90deg, #0a320a, #000080); color: white; padding: 4px 10px; font-weight: bold; display: flex; justify-content: space-between; cursor: move; font-size: 11px; }
+.win-content { padding: 15px; border: 2px inset rgba(255,255,255,0.2); }
+.close-btn { background: #c0c0c0; color: #000; border: 1px solid #fff; width: 14px; text-align: center; cursor: pointer; }
+textarea.swag-area { width: 100%; height: 200px; background: rgba(0,0,0,0.4); color: #fff; border: 1px inset #0f0; padding: 10px; outline: none; }
+
+#win-main { top: 30px; left: 30px; width: 240px; display: block; }
+#win-game { top: 120px; left: 320px; width: 340px; }
