@@ -2,234 +2,88 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LANDSCAPE_OF_MY_BREATH</title>
-    <style>
-        body, html { 
-            background: #050505; margin: 0; padding: 0; 
-            width: 100%; height: 200vh; 
-            overflow-x: hidden; font-family: 'Courier New', monospace; 
-            cursor: crosshair; color: #46a046;
-        }
-        canvas#bg-canvas { position: fixed; top: 0; left: 0; z-index: 1; pointer-events: none; }
-        
-        .win95 {
-            position: absolute; background: #c0c0c0; border: 2px solid; 
-            border-color: #fff #808080 #808080 #fff; padding: 2px; z-index: 1000;
-            display: none; animation: breathe 8s ease-in-out infinite;
-            max-width: 90vw;
-        }
-        @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-        
-        .win-title { background: #000080; color: white; padding: 4px 6px; font-size: 11px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .close-btn { background: #c0c0c0; color: black; border: 1px solid #fff; width: 16px; height: 14px; line-height: 12px; text-align: center; cursor: pointer; }
-        .win-body { padding: 12px; background: #fff; border: 2px inset #fff; color: #000; }
-
-        /* Mobile Layout Adjustments */
-        #win-main { top: 20px; left: 10px; width: 280px; }
-        #win-landscape { top: 180px; left: 50%; transform: translateX(-50%); width: 95%; max-width: 500px; }
-        #win-game { top: 20px; right: 10px; width: 310px; }
-        #win-text { top: 750px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 550px; }
-
-        /* Prairie Run Logic */
-        #game-area { 
-            position: relative; width: 100%; height: 200px; 
-            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #228B22 70%, #228B22 100%); 
-            overflow: hidden; border: 1px solid #000; touch-action: manipulation;
-        }
-        #horse { position: absolute; bottom: 35px; left: 30px; font-size: 40px; z-index: 10; transform: scaleX(-1); }
-        .haie { position: absolute; bottom: 35px; font-size: 30px; z-index: 5; }
-        #game-over-screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; flex-direction: column; align-items: center; justify-content: center; color: #fff; z-index: 100; }
-
-        /* UI elements */
-        .card { width: 60px; height: 60px; background: #888; border: 2px solid #444; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-        .card img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .card.flipped img { display: block; }
-        .card.matched { border: 2px solid #0f0; opacity: 0.3; }
-        .card.error { border: 2px solid #f00; }
-        .word-btn { background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; cursor: pointer; margin: 3px; padding: 4px; font-size: 10px; }
-        .hole { font-weight: bold; color: #000080; border-bottom: 2px solid #000080; padding: 0 4px; }
-        .btn-exe { width: 100%; padding: 8px; margin-top: 10px; background: #c0c0c0; border: 2px solid; border-color: #fff #808080 #808080 #fff; cursor: pointer; font-weight: bold; }
-        #feedback { position: fixed; bottom: 10px; left: 10px; width: 180px; background: rgba(0,20,0,0.9); border: 1px solid #0f0; color: #0f0; font-size: 8px; padding: 6px; z-index: 2000; pointer-events: none; }
-    </style>
+    <title>VERACRUZ_DRUID_STABLE_GLITCH</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
 <body>
+  
+ <div id="boot-screen">
+    <div class="boot-content">
+        
+        <div class="boot-video-container"> <video src="./ai.mp4" id="boot-video" autoplay muted loop playsinline></video>
+        </div>
 
-    <div id="feedback">> LANDSCAPE_INIT<br>> TOUCH TO BEGIN RECONSTRUCTION</div>
+        <div id="typewriter"></div>
+        <button id="enter-btn" onclick="startSystem()">[ ENTER ]</button>
+        
+    </div>
+</div>
 
-    <div id="win-main" class="win95">
-        <div class="win-title"><span>VERACRUZ_ROOT.sys</span><div class="close-btn" onclick="closeW('win-main')">X</div></div>
-        <div class="win-body">
-            <div id="type-main"></div>
-            <button class="btn-exe" id="btn-run" style="display:none;" onclick="launchAll()">RECONSTRUCT_MEMORY</button>
+<audio id="modem-sound">
+    <source src="https://www.soundjay.com/communication/sounds/dial-up-modem-01.mp3" type="audio/mpeg">
+</audio>
+
+    <div id="bg-layer"></div>
+
+    <img id="video-overlay" src="./girl.gif" alt="animated overlay">
+        <source src="./girl.gif" type="photo/gif">
+  <img id="photo-secret" src="./photosecret.jpg" alt="secret">
+    <div class="sidebar">
+      <div class="icon" onclick="openWin('win-cam')"><img src="https://win98icons.alexmeub.com/icons/png/camera3_vid-4.png"><span>CAMERA</span></div>
+        <div class="icon" onclick="openWin('win-notes')">
+            <img src="https://win98icons.alexmeub.com/icons/png/camera3-4.png">
+            <span>PHOTO</span>
+        </div>
+
+        <div class="icon" onclick="window.open('TON_LIEN_MUSIQUE_ICI', '_blank')">
+            <img src="https://win98icons.alexmeub.com/icons/png/cd_audio_cd_a-3.png">
+            <span>MUSIC</span>
+        </div>
+
+        <div class="icon" onclick="alert('Connection to MSN... Error 404')">
+            <img src="https://win98icons.alexmeub.com/icons/png/msn3-3.png">
+            <span>CHAT</span>
+        </div>
+
+        <div class="icon" onclick="openWin('win-notes')">
+            <img src="https://win98icons.alexmeub.com/icons/png/mshearts.png">
+            <span>L*F</span>
+        </div>
+
+        <div class="icon" onclick="openWin('win-notes')">
+            <img src="https://win98icons.alexmeub.com/icons/png/keys-4.png">
+            <span>SECRET</span>
+        </div>
+
+        <div class="icon" onclick="launchEverything()">
+            <img src="https://win98icons.alexmeub.com/icons/png/laptop_infrared_2-5.png">
+            <span>DREAM</span>
+        </div>
+
+        <div class="icon" onclick="openWin('win-notes')">
+            <img src="https://win98icons.alexmeub.com/icons/png/notepad-2.png">
+            <span>NOTES</span>
         </div>
     </div>
 
-    <div id="win-landscape" class="win95">
-        <div class="win-title"><span>PRAIRIE_RUN.exe</span><div class="close-btn" onclick="closeW('win-landscape')">X</div></div>
-        <div class="win-body">
-            <div id="game-area" onmousedown="jump()" ontouchstart="jump()">
-                <div style="position:absolute; top:5px; left:5px; font-size:9px; color:#000;">STABILITY: <span id="timer-val">0</span>s</div>
-                <div id="horse">🐎</div>
-                <div id="game-over-screen">
-                    <span style="font-size:12px;">FRAGMENT_CRASH</span>
-                    <button class="btn-exe" onclick="resetHorse()" style="width:120px;">REBOOT_DATA</button>
-                </div>
-            </div>
-        </div>
+
+    <div id="win-notes" class="win95">
+        <div class="win-header"><span>Notes.txt</span><div class="close-btn" onclick="closeWin('win-notes')">✕</div></div>
+        <div class="win-content"><textarea class="swag-area"></textarea></div>
     </div>
 
     <div id="win-game" class="win95">
-        <div class="win-title"><span>IMAGE_SYNC</span><div class="close-btn" onclick="closeW('win-game')">X</div></div>
-        <div class="win-body"><div class="memory-grid" id="grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:4px;"></div></div>
-    </div>
-
-    <div id="win-text" class="win95">
-        <div class="win-title"><span>TEXTUAL_BREATH</span><div class="close-btn" onclick="closeW('win-text')">X</div></div>
-        <div class="win-body">
-            <p style="font-size:11px; line-height:1.4; text-align:justify;">
-                Entre les racines qui <span class="hole" id="hole1">_________</span> de s'échapper des entrailles de la terre molle et juteuse, elles s'immisçaient dans les <span class="hole" id="hole2">_________</span> du temps... Ses oreilles ne regardaient ni n'écoutaient, entrelacées par ces racines <span class="hole" id="hole3">_________</span>.
-            </p>
-            <div id="word-bank" style="text-align:center; border-top:1px inset #808080; padding-top:10px;"></div>
+      <div id="win-cam" class="win95">
+        <div class="win-header"><span>LIVE_FEED.exe</span><div class="close-btn" onclick="closeWin('win-cam')">✕</div></div>
+        <div class="win-content" style="padding:0; line-height: 0;">
+            <div id="cam-container"></div>
         </div>
     </div>
+        <div class="win-header"><span>PRAIRIE_RUN.exe</span><div class="close-btn" onclick="closeWin('win-game')">✕</div></div>
+        <div class="win-content" style="padding:0;"><div id="p5-container"></div></div>
+    </div>
 
-    <canvas id="bg-canvas"></canvas>
-
-    <script>
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let booted = false; let particles = [];
-
-        // --- CORE LOGIC ---
-        function launchAll() {
-            document.getElementById('win-landscape').style.display = 'block';
-            document.getElementById('win-game').style.display = 'block';
-            initMemory(); resetHorse(); initTextGame();
-            setInterval(() => {
-                if(horseGameActive) {
-                    survivalTime++; document.getElementById('timer-val').innerText = survivalTime;
-                    if(survivalTime === 10) { document.getElementById('win-text').style.display = 'block'; }
-                }
-            }, 1000);
-        }
-
-        // --- HORSE PHYSICS ---
-        let horseGameActive = false; let isJumping = false; let survivalTime = 0;
-        let groundLevel = 35; let currentPos = groundLevel;
-        const horse = document.getElementById('horse');
-
-        window.addEventListener('keydown', (e) => { if(e.code === "Space") { e.preventDefault(); jump(); } });
-
-        function jump() {
-            if(!horseGameActive || isJumping) return;
-            isJumping = true;
-            let velocity = 12; // Power jump
-            let gravity = 0.6; 
-            let jumpInterval = setInterval(() => {
-                velocity -= gravity;
-                currentPos += velocity;
-                if (currentPos <= groundLevel) {
-                    currentPos = groundLevel; isJumping = false; clearInterval(jumpInterval);
-                }
-                horse.style.bottom = currentPos + 'px';
-            }, 20);
-        }
-
-        function spawnObs() {
-            if(!horseGameActive) return;
-            const h = document.createElement('div'); h.className = 'haie'; h.innerHTML = "🚧";
-            h.style.right = "-40px"; document.getElementById('game-area').appendChild(h);
-            let p = -40;
-            let move = setInterval(() => {
-                if(!horseGameActive) { h.remove(); clearInterval(move); return; }
-                p += 6; h.style.right = p + 'px';
-                let hr = horse.getBoundingClientRect(); let ar = h.getBoundingClientRect();
-                if(ar.left < hr.right - 20 && ar.right > hr.left + 20 && hr.bottom > ar.top + 10) {
-                    horseGameActive = false; document.getElementById('game-over-screen').style.display = 'flex';
-                }
-                if(p > 600) { h.remove(); clearInterval(move); }
-            }, 20);
-            setTimeout(spawnObs, Math.random() * 1500 + 1200);
-        }
-
-        function resetHorse() {
-            survivalTime = 0; document.getElementById('timer-val').innerText = "0";
-            document.getElementById('game-over-screen').style.display = 'none';
-            currentPos = groundLevel; horse.style.bottom = groundLevel + 'px';
-            isJumping = false; horseGameActive = true; spawnObs();
-        }
-
-        // --- MEMORY ---
-        const imgSources = ["image01.jpg", "image02.jpg", "image03.jpg", "image04.jpg", "image05.jpg", "image06.png"];
-        let flipped = []; let lockBoard = false;
-        function initMemory() {
-            const grid = document.getElementById('grid'); grid.innerHTML = "";
-            [...imgSources, ...imgSources].sort(() => Math.random() - 0.5).forEach(src => {
-                const d = document.createElement('div'); d.className = 'card'; d.dataset.src = src;
-                d.innerHTML = `<img src="${src}" onerror="this.style.display='none'; this.parentElement.style.background='blue'; this.parentElement.innerHTML='[M]';">`;
-                d.onclick = () => {
-                    if(lockBoard || d.classList.contains('flipped') || d.classList.contains('matched')) return;
-                    d.classList.add('flipped'); flipped.push(d);
-                    if(flipped.length === 2) {
-                        lockBoard = true;
-                        if(flipped[0].dataset.src === flipped[1].dataset.src) {
-                            flipped.forEach(c => c.classList.add('matched')); flipped = []; lockBoard = false;
-                        } else {
-                            flipped.forEach(c => c.classList.add('error'));
-                            setTimeout(() => { flipped.forEach(c => c.classList.remove('flipped', 'error')); flipped = []; lockBoard = false; }, 800);
-                        }
-                    }
-                };
-                grid.appendChild(d);
-            });
-        }
-
-        // --- TEXT GAME ---
-        const words = { hole1: ["tentaient", "voulaient"], hole2: ["fissures", "veines"], hole3: ["viscérales", "liquides"] };
-        function initTextGame() {
-            const bank = document.getElementById('word-bank'); bank.innerHTML = "";
-            Object.keys(words).forEach(hId => {
-                words[hId].forEach(w => {
-                    const btn = document.createElement('button'); btn.className = 'word-btn'; btn.innerText = w;
-                    btn.onclick = () => document.getElementById(hId).innerText = w;
-                    bank.appendChild(btn);
-                });
-            });
-        }
-
-        // --- BOOT ---
-        window.addEventListener('mousedown', (e) => {
-            if(!booted) {
-                document.getElementById('win-main').style.display = 'block';
-                typeWriter("type-main", "> Reconstructing Veracruz...\n> Archive: Breathing\n> Click below to sync.", 30, () => {
-                    document.getElementById('btn-run').style.display = 'block';
-                });
-                booted = true;
-            }
-            particles.push({x: e.clientX, y: e.clientY + window.scrollY, life: 1});
-        });
-
-        function typeWriter(id, text, speed, cb) {
-            let i = 0; const el = document.getElementById(id); el.innerHTML = "";
-            function step() { if(i < text.length) { el.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i); i++; setTimeout(step, speed); } else if(cb) cb(); }
-            step();
-        }
-
-        function closeW(id) { document.getElementById(id).style.display = 'none'; }
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
-
-        function animate() {
-            ctx.fillStyle = "rgba(5,5,5,0.2)"; ctx.fillRect(0,0,canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.life -= 0.01; ctx.globalAlpha = p.life; ctx.fillStyle = "#0f0";
-                ctx.fillText("BREATHING_DATA", p.x, p.y - window.scrollY);
-                if(p.life <= 0) particles.splice(i, 1);
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-    </script>
+    <script src="sketch.js"></script>
 </body>
 </html>
